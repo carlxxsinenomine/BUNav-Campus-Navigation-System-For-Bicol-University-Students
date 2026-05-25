@@ -1,7 +1,7 @@
 # BUNav - Bicol University Navigation System
 
 <p align="center">
-  <img src="public/BUNav_logo.svg" width="150" alt="BUNav Logo">
+  <img src="BUNav_logo.svg" width="150" alt="BUNav Logo">
 </p>
 
 A full-stack, React-based 3D campus navigation application built with Mapbox GL, Node.js, and MongoDB. BUNav provides students, faculty, and visitors with interactive mapping, turn-by-turn directions, real-time location tracking, and an extensive directory of buildings and points of interest across Bicol University campuses.
