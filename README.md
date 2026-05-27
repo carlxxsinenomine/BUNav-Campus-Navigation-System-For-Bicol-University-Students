@@ -1,4 +1,4 @@
-# BUNav - Bicol University Navigation System
+# BUNav — Bicol University Navigation System
 
 <p align="center">
   <img src="BUNav_logo.svg" width="150" alt="BUNav Logo">
@@ -10,61 +10,34 @@ A full-stack, React-based 3D campus navigation application built with Mapbox GL,
 
 ## Key Features
 
-- **Interactive 3D Map**: Fluid, high-performance map rendering powered by Mapbox GL.
-- **Turn-by-turn Navigation**: Integrated Mapbox Directions API for calculating exact routes (Walking, Cycling, Driving) between any two points.
-- **Building Directory & Information**: Search and navigate to specific buildings. Add descriptions and metadata to any building using the interactive UI.
-- **Real-time GPS Tracking**: Follow your movement live on the map while navigating.
-- **Global Search**: Quickly find gates, campuses, and individual buildings using the dynamic search bar.
-- **Secure & Rate-Limited API**: Backend endpoints are secured with `express-rate-limit` to prevent DoS attacks and database spamming.
-- **Persistent Storage**: Uses Express and MongoDB to save all custom buildings, POIs, and user-generated map data.
+### Map & Navigation
+- **Interactive 3D Map** — Fluid map rendering with switchable 2D/3D perspective powered by Mapbox GL.
+- **Turn-by-turn Navigation** — Calculates walking, cycling, or driving routes between your location and any destination using the Mapbox Directions API.
+- **Real-time GPS Tracking** — Follows your movement live on the map and automatically advances navigation steps as you move.
+- **Campus Auto-zoom** — Clicking a campus name at the overview zoom level flies the map into that campus boundary.
 
----
+### Search & Discovery
+- **Global Search Bar** — Find campuses, buildings, gates, and points of interest by name. Supports partial matching and deduplication.
+- **Building Directory** — Every searchable building shows its campus name and, when clicked, opens a popup with building metadata and a navigation option.
+- **POI List Panel** — Toggle visibility of individual POI categories (e.g., Main Gates, canteens) from a side panel without removing them from the database.
 
-## Technology Stack
+### Location Sharing
+- **Share a Location** — Click anywhere on the map (outside of buildings and POI markers) and a popup appears showing the coordinates as a shareable `@loc:lat,lng` string. Click **Copy Location** to copy it to clipboard.
+- **Paste to Navigate** — Paste a `@loc:` string directly into the search bar. The map instantly flies to those coordinates, drops a pin, and opens the navigation popup so you can route to the shared location.
+- **Toggle On/Off** — The pin icon in the toolbar enables or disables the location sharing feature. When disabled, map clicks no longer open the share popup.
 
-**Frontend:**
-- **React 19** - UI Framework
-- **Vite** - Build Tool & Dev Server
-- **Mapbox GL JS** - 3D Map Rendering
-- **@mapbox/mapbox-gl-draw** - Map drawing tools
-- **@turf/turf** - Advanced geospatial analysis
+### Points of Interest
+- **Custom POI Pins** — Drop color-coded pins anywhere on the map with a custom label and save them to the database.
+- **Persistent Storage** — All custom buildings and POIs survive page refreshes via the Express/MongoDB backend.
 
-**Backend & Database:**
-- **Node.js + Express** - REST API Server
-- **MongoDB + Mongoose** - Database and schema modeling
-- **dotenv & cors & express-rate-limit** - Environment, security, and rate limiting middlewares
+### Toolbar Controls
+The right-side toolbar is collapsible. The **+** and **−** zoom buttons are always visible. The chevron button below them expands or collapses the rest of the controls:
 
----
-
-## Project Architecture
-
-The codebase has been meticulously modularized for scalability and easy maintenance:
-
-```text
-BUNav/
-├── server.js                    # Express backend server
-├── check_db.cjs                 # Utility script to initialize/check MongoDB
-├── public/                      
-│   ├── BUNav_logo.svg           # Application logo
-│   └── vite.svg                 
-├── src/
-│   ├── components/              # UI Components
-│   │   ├── Three3DMap.jsx       # Main container coordinating map & hooks
-│   │   ├── SearchBar.jsx        # Search functionality
-│   │   ├── MapToolbar.jsx       # Vertical action toolbar
-│   │   ├── NavigationPanel.jsx  # HUD for active routing instructions
-│   │   ├── PoiListPanel.jsx     # Side panel for toggling POI visibility
-│   │   ├── Snackbar.jsx         # Custom toast notifications
-│   │   └── Modals/Popups        # AppInfoModal, DisclaimerModal, BuildingInfoModal, PoiModal, BuildingPopup
-│   ├── hooks/                   # Custom business logic hooks
-│   │   ├── useNavigation.js     # Routing and active trip tracking
-│   │   ├── usePoi.js            # Dropping and managing Points of Interest
-│   │   ├── useBuildingInfo.js   # Updating building metadata
-│   │   ├── useBuildingSelection.js # Managing active selections
-│   │   └── useSnackbar.js       # Toast state management
-│   ├── utils/
-│   │   └── geoUtils.js          # Turf.js distance and coordinate utilities
-│   ├── main.jsx                 # React DOM mount point
-│   └── index.css                # Global styles
-├── .env                         # Environment variables (API keys, DB URI)
-└── package.json                 # Dependencies
+| Button | Function |
+|--------|----------|
+| Reset North | Resets the map bearing and pitch to north-up 2D |
+| Locate Me | Triggers the GPS geolocate control |
+| 3D | Toggles between 3D (pitched) and flat 2D view |
+| POI | Opens/closes the POI List Panel |
+| Pin icon | Enables/disables location sharing on map click |
+| Info | Opens the app information modal |
